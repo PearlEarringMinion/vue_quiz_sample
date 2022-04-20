@@ -13,10 +13,7 @@
             
             
             
-                <div 
-                    class="card"
-                    v-if="status"
-                >
+                <div class="card" v-if="status">
             
                     <div class="card-body">
                         <p class="badge badge-dard">第{{number+1}}問</p>
@@ -29,102 +26,87 @@
                             v-for="(answer,index) in currentQuestion.answers"
                             @click="selectAnswer(index)"
                         >{{answer}}</button>
-
+                       
                     </div>
-                    
-                </div>    
-
-                <br>
-                <nav class="navbar navbar-light bg-light">
-                    <div class="container-fluid">
-                      <a class="navbar-brand" href="#">
-                        <button type="button" class="btn btn-outline-danger" @click="showAnswer()">show answer</button>
-                        <div id="displayAnswer"></div>
-
-                      </a>
-                    </div>
-                  </nav>
+                </div>               
                 
-                <div v-else
-                    class="end"
-                >
+                
+                //ここから追加
+                <div v-else class="end">
                     全問終了です。
                     <br>
                     {{questions.length}}問中{{correctCount}}問正解です。
                     <br>
                     <br>
                     <button type="button" class="btn btn-primary" @click="reload()">RESUME</button>
-                </div>        
-                
-            </div>
+                </div>
         </div>
+        
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.2/dist/vuetify.min.js" integrity="sha256-JKMIbIbZD5/wrlXXmlTLXX9pMUFuhwraY8m+FFj0N/o=" crossorigin="anonymous"></script>
-        <script>
 
-            
+        <script>
 
             var app = new Vue({
                 el: '#app',
                 data:{
                     questions:[
-                        {
+                    {
                             question:"羽田空港の4レターコードは？",
                             answers:["RJTE","RJTT","RJTL","RJAA"],
-                            answer:1
+                            answer:2
                         },
                         {
                             question:"成田空港の4レターコードは？",
                             answers:["RJAA","RJGG","RJTL","RJAH"],
-                            answer:0
+                            answer:1
                         },
                         {
                             question:"東京HPの4レターコードは？",
                             answers:["RJTJ","RJTI","RJTL","RJTK"],
-                            answer:1
+                            answer:2
                         },
                         {
                             question:"中部国際空港の4レターコードは？",
                             answers:["RJNS","RJOO","RJNA","RJGG"],
-                            answer:3
+                            answer:4
                         },
                         {
                             question:"名古屋空港の4レターコードは？",
                             answers:["RJNS","RJGG","RJNA","RJSN"],
-                            answer:2
+                            answer:3
                         },
                         {
                             question:"関西空港の4レターコードは？",
                             answers:["RJOY","RJOO","RJBE","RJBB"],
-                            answer:3
+                            answer:4
                         },
                         {
                             question:"八尾空港の4レターコードは？",
                             answers:["RJOY","RJOO","RJBE","RJBB"],
-                            answer:0
+                            answer:1
                         },
                         {
                             question:"福岡空港の4レターコードは？",
                             answers:["RJFO","RJFF","RJSS","RJFU"],
-                            answer:1
+                            answer:2
                         },
                         {
                             question:"仙台空港の4レターコードは？",
                             answers:["RJSM","RJSA","RJSS","RJSI"],
-                            answer:2
+                            answer:3
                         },
                         {
                             question:"丘珠空港の4レターコードは？",
                             answers:["RJOO","RJCH","RJCO","RJCC"],
-                            answer:2
+                            answer:3
                         },
                     ],
                     number:0,
-                    questionLength:10,        
-                    status:true,             
-                    correctCount:0,
-                    checkflg : false,    
-                    displayAnswer :[],        
+                    questionLength:10,       
+                    status:true,            
+                    correctCount:0,         
+                    displayAnswer :[], 
                 },
                 computed:{
                     currentQuestion:function(){
@@ -133,14 +115,15 @@
                 },
                 methods:{
                     selectAnswer(index){
-                            if(index == this.currentQuestion.answer){
+                            if(index+1 == this.currentQuestion.answer){
                                 this.correctCount++;
-                                alert('正解')
+                                alert('⭕️正解')
                             } else{
-                                alert('不正解')
+                                preDisplayAnswer = this.currentQuestion.answer;
+                                displayAnswer = this.currentQuestion.answers[preDisplayAnswer - 1];
+                                alert("❌不正解です。正解は" + displayAnswer);
                             }
                         this.number++;
-                        this.checkflg = false;
                         
                         
                         
@@ -149,24 +132,15 @@
                             this.status = false;
                         }
                         
-                        
-                        
-                    },
-
-                    showAnswer(){
-                        preDisplayAnswer = this.currentQuestion.answer;
-                        displayAnswer = this.currentQuestion.answers[preDisplayAnswer];
-                        console.log(displayAnswer);
                     },
 
                     reload(){
                         window.location.reload();
                     },
+
                 }
+
             })
-
-            
-
         </script>
         <style>
             body{
